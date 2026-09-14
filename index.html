@@ -40,7 +40,7 @@
     position:relative;
     z-index:20;
   }
-  .brand{ font-size:26px; font-weight:800; letter-spacing:-0.02em; }
+  .brand{ font-size:20px; font-weight:800; letter-spacing:-0.02em; }
   .brand::after{ content:'.'; color:var(--accent); }
 
   .topbar-center{ position:relative; }
@@ -51,31 +51,31 @@
     background:var(--bg-elevated);
     border:1px solid var(--border);
     color:var(--text-primary);
-    font-size:14px;
+    font-size:13px;
     font-weight:600;
-    padding:8px 13px;
-    border-radius:26px;
+    padding:8px 14px;
+    border-radius:20px;
     cursor:pointer;
     transition:border-color .15s;
   }
   #device-btn:hover{ border-color:#3a3a44; }
   #device-btn .ratio-chip{
-    font-size:14px; font-weight:600; color:var(--text-tertiary);
-    background:rgba(255,255,255,0.05); padding:3px 9px; border-radius:26px;
+    font-size:11px; font-weight:600; color:var(--text-tertiary);
+    background:rgba(255,255,255,0.05); padding:2px 7px; border-radius:20px;
   }
-  #device-btn svg{ width:17px; height:20px; color:var(--text-tertiary); transition:transform .15s; }
+  #device-btn svg{ width:13px; height:13px; color:var(--text-tertiary); transition:transform .15s; }
   #device-btn.open svg{ transform:rotate(180deg); }
 
   #clear-btn{
     background:transparent; border:1px solid var(--border); color:var(--text-secondary);
-    font-size:13px; font-weight:600; padding:8px 14px; border-radius:26px; cursor:pointer;
+    font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; cursor:pointer;
     transition:color .15s, border-color .15s;
   }
   #clear-btn:hover{ color:#FF7A6E; border-color:#4a2c28; }
 
   /* device dropdown */
   #device-panel{
-    position:absolute; top:52px; left:50%; transform:translateX(-50%);
+    position:absolute; top:46px; left:50%; transform:translateX(-50%);
     width:340px; max-height:min(70vh, 520px); overflow-y:auto;
     background:var(--bg-panel); border:1px solid var(--border); border-radius:12px;
     box-shadow:0 20px 40px -10px rgba(0,0,0,.5);
@@ -172,17 +172,26 @@
   user-select:none !important;
   -webkit-user-select:none !important;
 }
+.empty-screen{
+  height:100%; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:26px; color:var(--text-tertiary);
+  text-align:center; padding:0 14px; cursor:pointer;
+}
+.empty-screen svg{ width:120px; height:120px; opacity:.4; }
 
-  .empty-screen{
-    height:100%; display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:40px; color:var(--text-tertiary);
-    text-align:center; padding:0 34px; cursor:pointer;
-  }
-  .empty-screen svg{ width:160px; height:160 px; opacity:.45; }
-  .empty-screen p{ font-size:30px; line-height:1.65; }
-  .empty-screen .hint{ font-size:24px; color:var(--text-tertiary); opacity:.7; }
+.empty-main{ display:flex; flex-direction:column; gap:14px; }
+.empty-main p{ font-size:32px; line-height:1.6; color:var(--text-primary); font-weight:500; }
+.empty-main .hint{ font-size:25px; color:var(--text-tertiary); white-space:nowrap; }
 
-  #file-input{ display:none; }
+.empty-tips{
+  display:flex; flex-direction:column; gap:12px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  width:100%; max-width:620px;
+}
+.tip-row{ font-size:23px; color:var(--text-tertiary); opacity:.75; line-height:1.5; white-space:nowrap; }
+
+#file-input{ display:none; }
 </style>
 </head>
 <body>
@@ -388,6 +397,16 @@ function setupScrollbar(){
 
   updateThumb();
 }
+frame.addEventListener('wheel', e => {
+  if(!e.shiftKey) return;
+
+  const screenEl = frame.querySelector('.screen');
+  if(!screenEl) return;
+
+  e.preventDefault();
+  const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX; // 여기가 핵심
+  screenEl.scrollTop += delta * 3;
+}, { passive:false });
 
 document.addEventListener('mousemove', e => {
   if(!sbState.dragging || !sbState.screenEl) return;
@@ -503,15 +522,21 @@ document.addEventListener('selectstart', e => {
 
     let content;
     if(!state.images.length){
-      content = `
-        <div class="empty-screen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 16V4M12 4l-4 4M12 4l4 4"/>
-            <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
-          </svg>
-          <p>여기에 원고 파일을<br>드래그하거나 탭해서 올려보세요</p>
-          <span class="hint">jpg · png · webp</span>
-        </div>`;
+content = `
+  <div class="empty-screen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 16V4M12 4l-4 4M12 4l4 4"/>
+      <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+    </svg>
+    <div class="empty-main">
+      <p>여기에 원고 파일을<br>드래그하거나 탭해서 올려보세요</p>
+      <span class="hint">jpg · png · webp</span>
+    </div>
+    <div class="empty-tips">
+      <div class="tip-row">⇧ Shift + 스크롤 — 3배속 스크롤</div>
+      <div class="tip-row">서버 저장 없음 — 창을 닫으면 자동 삭제</div>
+    </div>
+  </div>`;
     } else {
       content = state.images.filter(i => i.loaded).map(img => `
         <div class="cut-wrap"><img src="${img.url}" alt="${escapeHtml(img.name)}"></div>
