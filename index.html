@@ -40,7 +40,7 @@
     position:relative;
     z-index:20;
   }
-  .brand{ font-size:20px; font-weight:800; letter-spacing:-0.02em; }
+  .brand{ font-size:26px; font-weight:800; letter-spacing:-0.02em; }
   .brand::after{ content:'.'; color:var(--accent); }
 
   .topbar-center{ position:relative; }
@@ -51,31 +51,31 @@
     background:var(--bg-elevated);
     border:1px solid var(--border);
     color:var(--text-primary);
-    font-size:13px;
+    font-size:14px;
     font-weight:600;
-    padding:8px 14px;
-    border-radius:20px;
+    padding:8px 13px;
+    border-radius:26px;
     cursor:pointer;
     transition:border-color .15s;
   }
   #device-btn:hover{ border-color:#3a3a44; }
   #device-btn .ratio-chip{
-    font-size:11px; font-weight:600; color:var(--text-tertiary);
-    background:rgba(255,255,255,0.05); padding:2px 7px; border-radius:20px;
+    font-size:14px; font-weight:600; color:var(--text-tertiary);
+    background:rgba(255,255,255,0.05); padding:3px 9px; border-radius:26px;
   }
-  #device-btn svg{ width:13px; height:13px; color:var(--text-tertiary); transition:transform .15s; }
+  #device-btn svg{ width:17px; height:20px; color:var(--text-tertiary); transition:transform .15s; }
   #device-btn.open svg{ transform:rotate(180deg); }
 
   #clear-btn{
     background:transparent; border:1px solid var(--border); color:var(--text-secondary);
-    font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; cursor:pointer;
+    font-size:13px; font-weight:600; padding:8px 14px; border-radius:26px; cursor:pointer;
     transition:color .15s, border-color .15s;
   }
   #clear-btn:hover{ color:#FF7A6E; border-color:#4a2c28; }
 
   /* device dropdown */
   #device-panel{
-    position:absolute; top:46px; left:50%; transform:translateX(-50%);
+    position:absolute; top:52px; left:50%; transform:translateX(-50%);
     width:340px; max-height:min(70vh, 520px); overflow-y:auto;
     background:var(--bg-panel); border:1px solid var(--border); border-radius:12px;
     box-shadow:0 20px 40px -10px rgba(0,0,0,.5);
